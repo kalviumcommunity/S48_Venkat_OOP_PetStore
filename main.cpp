@@ -11,9 +11,9 @@ public:
     double price;
 
     void getDetails() {
-        cout << "Pet Name: " << name << endl;
-        cout << "Age: " << age << " years" << endl;
-        cout << "Price: $" << price << endl;
+        cout << "Pet Name: " << this->name << endl;
+        cout << "Age: " << this->age << " years" << endl;
+        cout << "Price: $" << this->price << endl;
     }
 };
 
@@ -25,8 +25,8 @@ public:
 
     void getDetails() {
         Pet::getDetails();
-        cout << "Breed: " << breed << endl;
-        cout << "Trained: " << (isTrained ? "Yes" : "No") << endl;
+        cout << "Breed: " << this->breed << endl;
+        cout << "Trained: " << (this->isTrained ? "Yes" : "No") << endl;
     }
 };
 
@@ -38,8 +38,8 @@ public:
 
     void getDetails() {
         Pet::getDetails();
-        cout << "Fur Color: " << furColor << endl;
-        cout << "Independent: " << (isIndependent ? "Yes" : "No") << endl;
+        cout << "Fur Color: " << this->furColor << endl;
+        cout << "Independent: " << (this->isIndependent ? "Yes" : "No") << endl;
     }
 };
 
