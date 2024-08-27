@@ -45,30 +45,49 @@ public:
 
 // Main function
 int main() {
-    // Create a Dog object
-    Dog myDog;
-    myDog.name = "Buddy";
-    myDog.age = 3;
-    myDog.price = 250.00;
-    myDog.breed = "Labrador";
-    myDog.isTrained = true;
+    // Create an array of Dog objects
+    Dog dogs[2];
+    
+    dogs[0].name = "Buddy";
+    dogs[0].age = 3;
+    dogs[0].price = 250.00;
+    dogs[0].breed = "Labrador";
+    dogs[0].isTrained = true;
+    
+    dogs[1].name = "Max";
+    dogs[1].age = 2;
+    dogs[1].price = 200.00;
+    dogs[1].breed = "Beagle";
+    dogs[1].isTrained = false;
 
-    // Create a Cat object
-    Cat myCat;
-    myCat.name = "Whiskers";
-    myCat.age = 2;
-    myCat.price = 150.00;
-    myCat.furColor = "Gray";
-    myCat.isIndependent = true;
+    // Create an array of Cat objects
+    Cat cats[2];
+    
+    cats[0].name = "Whiskers";
+    cats[0].age = 2;
+    cats[0].price = 150.00;
+    cats[0].furColor = "Gray";
+    cats[0].isIndependent = true;
+    
+    cats[1].name = "Mittens";
+    cats[1].age = 1;
+    cats[1].price = 120.00;
+    cats[1].furColor = "White";
+    cats[1].isIndependent = false;
 
-    // Display details of the Dog
+    // Display details of all Dogs
     cout << "Dog Details:" << endl;
-    myDog.getDetails();
-    cout << endl;
+    for (int i = 0; i < 2; i++) {
+        dogs[i].getDetails();
+        cout << endl;
+    }
 
-    // Display details of the Cat
+    // Display details of all Cats
     cout << "Cat Details:" << endl;
-    myCat.getDetails();
+    for (int i = 0; i < 2; i++) {
+        cats[i].getDetails();
+        cout << endl;
+    }
 
     return 0;
 }
