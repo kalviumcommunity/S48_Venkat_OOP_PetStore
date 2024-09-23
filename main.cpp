@@ -15,6 +15,15 @@ public:
         cout << "Age: " << this->age << " years" << endl;
         cout << "Price: $" << this->price << endl;
     }
+
+    void inputDetails() {
+        cout << "Enter Pet Name: ";
+        cin >> name;
+        cout << "Enter Age: ";
+        cin >> age;
+        cout << "Enter Price: ";
+        cin >> price;
+    }
 };
 
 // Dog Class (Inherits from Pet)
@@ -27,6 +36,14 @@ public:
         Pet::getDetails();
         cout << "Breed: " << this->breed << endl;
         cout << "Trained: " << (this->isTrained ? "Yes" : "No") << endl;
+    }
+
+    void inputDetails() {
+        Pet::inputDetails();  // Get the base pet details
+        cout << "Enter Breed: ";
+        cin >> breed;
+        cout << "Is the dog trained? (1 for Yes, 0 for No): ";
+        cin >> isTrained;
     }
 };
 
@@ -41,53 +58,64 @@ public:
         cout << "Fur Color: " << this->furColor << endl;
         cout << "Independent: " << (this->isIndependent ? "Yes" : "No") << endl;
     }
+
+    void inputDetails() {
+        Pet::inputDetails();  // Get the base pet details
+        cout << "Enter Fur Color: ";
+        cin >> furColor;
+        cout << "Is the cat independent? (1 for Yes, 0 for No): ";
+        cin >> isIndependent;
+    }
 };
 
 // Main function
 int main() {
-    // Create an array of Dog objects
-    Dog dogs[2];
-    
-    dogs[0].name = "Buddy";
-    dogs[0].age = 3;
-    dogs[0].price = 250.00;
-    dogs[0].breed = "Labrador";
-    dogs[0].isTrained = true;
-    
-    dogs[1].name = "Max";
-    dogs[1].age = 2;
-    dogs[1].price = 200.00;
-    dogs[1].breed = "Beagle";
-    dogs[1].isTrained = false;
+    int numDogs, numCats;
 
-    // Create an array of Cat objects
-    Cat cats[2];
+    // Asking for number of pets to input
+    cout << "Enter the number of dogs: ";
+    cin >> numDogs;
+
+    cout << "Enter the number of cats: ";
+    cin >> numCats;
+
+    // Dynamically allocate an array of Dog objects
+    Dog* dogs = new Dog[numDogs]; // using new to allocate memory for Dog objects dynamically
     
-    cats[0].name = "Whiskers";
-    cats[0].age = 2;
-    cats[0].price = 150.00;
-    cats[0].furColor = "Gray";
-    cats[0].isIndependent = true;
+    // Take input from the user for Dog objects
+    for (int i = 0; i < numDogs; i++) {
+        cout << "Enter details for Dog " << i + 1 << ":" << endl;
+        dogs[i].inputDetails();
+        cout << endl;
+    }
+
+    // Dynamically allocate an array of Cat objects
+    Cat* cats = new Cat[numCats]; // using new to allocate memory for Cat objects dynamically
     
-    cats[1].name = "Mittens";
-    cats[1].age = 1;
-    cats[1].price = 120.00;
-    cats[1].furColor = "White";
-    cats[1].isIndependent = false;
+    // Take input from the user for Cat objects
+    for (int i = 0; i < numCats; i++) {
+        cout << "Enter details for Cat " << i + 1 << ":" << endl;
+        cats[i].inputDetails();
+        cout << endl;
+    }
 
     // Display details of all Dogs
     cout << "Dog Details:" << endl;
-    for (int i = 0; i < 2; i++) {
+    for (int i = 0; i < numDogs; i++) {
         dogs[i].getDetails();
         cout << endl;
     }
 
     // Display details of all Cats
     cout << "Cat Details:" << endl;
-    for (int i = 0; i < 2; i++) {
+    for (int i = 0; i < numCats; i++) {
         cats[i].getDetails();
         cout << endl;
     }
+
+    // Free the dynamically allocated memory
+    delete[] dogs;  // deallocate the memory for the array of Dog objects
+    delete[] cats;  // deallocate the memory for the array of Cat objects
 
     return 0;
 }
