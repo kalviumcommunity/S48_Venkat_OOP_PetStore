@@ -10,6 +10,19 @@ public:
     int age;
     double price;
 
+    // Static variable to count total number of pets (across all types)
+    static int totalPets;
+
+    Pet() {
+        // Increment the totalPets count whenever a Pet (or derived class) is created
+        totalPets++;
+    }
+
+    virtual ~Pet() {
+        // Decrement totalPets when a pet is deleted
+        totalPets--;
+    }
+
     void getDetails() {
         cout << "Pet Name: " << this->name << endl;
         cout << "Age: " << this->age << " years" << endl;
@@ -26,11 +39,25 @@ public:
     }
 };
 
+// Initialize static variable
+int Pet::totalPets = 0;
+
 // Dog Class (Inherits from Pet)
 class Dog : public Pet {
 public:
     string breed;
     bool isTrained;
+
+    // Static variable to count number of Dog objects created
+    static int totalDogs;
+
+    Dog() {
+        totalDogs++;  // Increment totalDogs count when a Dog is created
+    }
+
+    ~Dog() {
+        totalDogs--;  // Decrement totalDogs count when a Dog is deleted
+    }
 
     void getDetails() {
         Pet::getDetails();
@@ -47,11 +74,25 @@ public:
     }
 };
 
+// Initialize static variable
+int Dog::totalDogs = 0;
+
 // Cat Class (Inherits from Pet)
 class Cat : public Pet {
 public:
     string furColor;
     bool isIndependent;
+
+    // Static variable to count number of Cat objects created
+    static int totalCats;
+
+    Cat() {
+        totalCats++;  // Increment totalCats count when a Cat is created
+    }
+
+    ~Cat() {
+        totalCats--;  // Decrement totalCats count when a Cat is deleted
+    }
 
     void getDetails() {
         Pet::getDetails();
@@ -67,6 +108,9 @@ public:
         cin >> isIndependent;
     }
 };
+
+// Initialize static variable
+int Cat::totalCats = 0;
 
 // Main function
 int main() {
@@ -113,9 +157,20 @@ int main() {
         cout << endl;
     }
 
+    // Display the total number of Dogs, Cats, and Pets created
+    cout << "Total Pets: " << Pet::totalPets << endl;
+    cout << "Total Dogs: " << Dog::totalDogs << endl;
+    cout << "Total Cats: " << Cat::totalCats << endl;
+
     // Free the dynamically allocated memory
     delete[] dogs;  // deallocate the memory for the array of Dog objects
     delete[] cats;  // deallocate the memory for the array of Cat objects
+
+    // Display the total after deletion
+    cout << "After deletion:" << endl;
+    cout << "Total Pets: " << Pet::totalPets << endl;
+    cout << "Total Dogs: " << Dog::totalDogs << endl;
+    cout << "Total Cats: " << Cat::totalCats << endl;
 
     return 0;
 }
