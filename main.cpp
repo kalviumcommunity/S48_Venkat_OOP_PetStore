@@ -13,6 +13,11 @@ public:
     // Static variable to count total number of pets (across all types)
     static int totalPets;
 
+    // Static member function to get total number of pets
+    static int getTotalPets() {
+        return totalPets;
+    }
+
     Pet() {
         // Increment the totalPets count whenever a Pet (or derived class) is created
         totalPets++;
@@ -51,6 +56,11 @@ public:
     // Static variable to count number of Dog objects created
     static int totalDogs;
 
+    // Static member function to get total number of dogs
+    static int getTotalDogs() {
+        return totalDogs;
+    }
+
     Dog() {
         totalDogs++;  // Increment totalDogs count when a Dog is created
     }
@@ -85,6 +95,11 @@ public:
 
     // Static variable to count number of Cat objects created
     static int totalCats;
+
+    // Static member function to get total number of cats
+    static int getTotalCats() {
+        return totalCats;
+    }
 
     Cat() {
         totalCats++;  // Increment totalCats count when a Cat is created
@@ -157,20 +172,20 @@ int main() {
         cout << endl;
     }
 
-    // Display the total number of Dogs, Cats, and Pets created
-    cout << "Total Pets: " << Pet::totalPets << endl;
-    cout << "Total Dogs: " << Dog::totalDogs << endl;
-    cout << "Total Cats: " << Cat::totalCats << endl;
+    // Display the total number of Dogs, Cats, and Pets using static member functions
+    cout << "Total Pets: " << Pet::getTotalPets() << endl;
+    cout << "Total Dogs: " << Dog::getTotalDogs() << endl;
+    cout << "Total Cats: " << Cat::getTotalCats() << endl;
 
     // Free the dynamically allocated memory
     delete[] dogs;  // deallocate the memory for the array of Dog objects
     delete[] cats;  // deallocate the memory for the array of Cat objects
 
-    // Display the total after deletion
+    // Display the total after deletion using static member functions
     cout << "After deletion:" << endl;
-    cout << "Total Pets: " << Pet::totalPets << endl;
-    cout << "Total Dogs: " << Dog::totalDogs << endl;
-    cout << "Total Cats: " << Cat::totalCats << endl;
+    cout << "Total Pets: " << Pet::getTotalPets() << endl;
+    cout << "Total Dogs: " << Dog::getTotalDogs() << endl;
+    cout << "Total Cats: " << Cat::getTotalCats() << endl;
 
     return 0;
 }
