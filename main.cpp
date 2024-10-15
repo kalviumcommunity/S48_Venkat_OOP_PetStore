@@ -13,19 +13,27 @@ private:
 public:
     static int totalPets;
 
+    // Static member function
     static int getTotalPets() {
         return totalPets;
     }
 
-    Pet() {
+    // Default Constructor
+    Pet() : name("Unknown"), age(0), price(0.0) {
         totalPets++;
     }
 
+    // Parameterized Constructor
+    Pet(string newName, int newAge, double newPrice) : name(newName), age(newAge), price(newPrice) {
+        totalPets++;
+    }
+
+    // Destructor
     virtual ~Pet() {
         totalPets--;
     }
 
-    // Accessor methods
+    // Accessor and Mutator methods
     string getName() const {
         return name;
     }
@@ -38,7 +46,6 @@ public:
         return price;
     }
 
-    // Mutator methods
     void setName(const string& newName) {
         name = newName;
     }
@@ -51,26 +58,7 @@ public:
         price = newPrice;
     }
 
-    // Public method to input pet details
-    void inputDetails() {
-        string inputName;
-        int inputAge;
-        double inputPrice;
-
-        cout << "Enter Pet Name: ";
-        cin >> inputName;
-        setName(inputName);
-
-        cout << "Enter Age: ";
-        cin >> inputAge;
-        setAge(inputAge);
-
-        cout << "Enter Price: ";
-        cin >> inputPrice;
-        setPrice(inputPrice);
-    }
-
-    void getDetails() const {
+    virtual void getDetails() const {
         cout << "Pet Name: " << getName() << endl;
         cout << "Age: " << getAge() << " years" << endl;
         cout << "Price: $" << getPrice() << endl;
@@ -89,19 +77,28 @@ private:
 public:
     static int totalDogs;
 
+    // Static member function
     static int getTotalDogs() {
         return totalDogs;
     }
 
-    Dog() {
+    // Default Constructor
+    Dog() : Pet(), breed("Unknown"), isTrained(false) {
         totalDogs++;
     }
 
+    // Parameterized Constructor
+    Dog(string newName, int newAge, double newPrice, string newBreed, bool trained)
+        : Pet(newName, newAge, newPrice), breed(newBreed), isTrained(trained) {
+        totalDogs++;
+    }
+
+    // Destructor
     ~Dog() {
         totalDogs--;
     }
 
-    // Accessor methods for Dog's private attributes
+    // Accessor and Mutator methods
     string getBreed() const {
         return breed;
     }
@@ -110,7 +107,6 @@ public:
         return isTrained;
     }
 
-    // Mutator methods for Dog's private attributes
     void setBreed(const string& newBreed) {
         breed = newBreed;
     }
@@ -119,22 +115,7 @@ public:
         isTrained = trained;
     }
 
-    void inputDetails() {
-        Pet::inputDetails(); // Get base pet details
-
-        string inputBreed;
-        bool inputIsTrained;
-
-        cout << "Enter Breed: ";
-        cin >> inputBreed;
-        setBreed(inputBreed);
-
-        cout << "Is the dog trained? (1 for Yes, 0 for No): ";
-        cin >> inputIsTrained;
-        setIsTrained(inputIsTrained);
-    }
-
-    void getDetails() const {
+    void getDetails() const override {
         Pet::getDetails();
         cout << "Breed: " << getBreed() << endl;
         cout << "Trained: " << (getIsTrained() ? "Yes" : "No") << endl;
@@ -153,19 +134,28 @@ private:
 public:
     static int totalCats;
 
+    // Static member function
     static int getTotalCats() {
         return totalCats;
     }
 
-    Cat() {
+    // Default Constructor
+    Cat() : Pet(), furColor("Unknown"), isIndependent(false) {
         totalCats++;
     }
 
+    // Parameterized Constructor
+    Cat(string newName, int newAge, double newPrice, string newFurColor, bool independent)
+        : Pet(newName, newAge, newPrice), furColor(newFurColor), isIndependent(independent) {
+        totalCats++;
+    }
+
+    // Destructor
     ~Cat() {
         totalCats--;
     }
 
-    // Accessor methods for Cat's private attributes
+    // Accessor and Mutator methods
     string getFurColor() const {
         return furColor;
     }
@@ -174,7 +164,6 @@ public:
         return isIndependent;
     }
 
-    // Mutator methods for Cat's private attributes
     void setFurColor(const string& newColor) {
         furColor = newColor;
     }
@@ -183,22 +172,7 @@ public:
         isIndependent = independent;
     }
 
-    void inputDetails() {
-        Pet::inputDetails(); // Get base pet details
-
-        string inputFurColor;
-        bool inputIsIndependent;
-
-        cout << "Enter Fur Color: ";
-        cin >> inputFurColor;
-        setFurColor(inputFurColor);
-
-        cout << "Is the cat independent? (1 for Yes, 0 for No): ";
-        cin >> inputIsIndependent;
-        setIsIndependent(inputIsIndependent);
-    }
-
-    void getDetails() const {
+    void getDetails() const override {
         Pet::getDetails();
         cout << "Fur Color: " << getFurColor() << endl;
         cout << "Independent: " << (getIsIndependent() ? "Yes" : "No") << endl;
@@ -212,7 +186,7 @@ int Cat::totalCats = 0;
 int main() {
     int numDogs, numCats;
 
-    // Asking for number of pets to input
+    // Ask for number of pets
     cout << "Enter the number of dogs: ";
     cin >> numDogs;
 
@@ -220,43 +194,67 @@ int main() {
     cin >> numCats;
 
     // Dynamically allocate an array of Dog objects
-    Dog* dogs = new Dog[numDogs]; // using new to allocate memory for Dog objects dynamically
+    Dog* dogs = new Dog[numDogs]; 
     
-    // Take input from the user for Dog objects
+    // Input details for Dog objects using parameterized constructor
     for (int i = 0; i < numDogs; i++) {
+        string name, breed;
+        int age;
+        double price;
+        bool trained;
+
         cout << "Enter details for Dog " << i + 1 << ":" << endl;
-        dogs[i].inputDetails();
-        cout << endl;
+        cout << "Name: "; cin >> name;
+        cout << "Age: "; cin >> age;
+        cout << "Price: "; cin >> price;
+        cout << "Breed: "; cin >> breed;
+        cout << "Trained (1 for Yes, 0 for No): "; cin >> trained;
+
+        dogs[i] = Dog(name, age, price, breed, trained); // Using parameterized constructor
     }
 
     // Dynamically allocate an array of Cat objects
-    Cat* cats = new Cat[numCats]; // using new to allocate memory for Cat objects dynamically
+    Cat* cats = new Cat[numCats]; 
     
-    // Take input from the user for Cat objects
+    // Input details for Cat objects using parameterized constructor
     for (int i = 0; i < numCats; i++) {
+        string name, furColor;
+        int age;
+        double price;
+        bool independent;
+
         cout << "Enter details for Cat " << i + 1 << ":" << endl;
-        cats[i].inputDetails();
-        cout << endl;
+        cout << "Name: "; cin >> name;
+        cout << "Age: "; cin >> age;
+        cout << "Price: "; cin >> price;
+        cout << "Fur Color: "; cin >> furColor;
+        cout << "Independent (1 for Yes, 0 for No): "; cin >> independent;
+
+        cats[i] = Cat(name, age, price, furColor, independent); // Using parameterized constructor
     }
 
-    // Display details of all Dogs
-    cout << "Dog Details:" << endl;
+    // Display Dog details
+    cout << "\nDog Details:\n";
     for (int i = 0; i < numDogs; i++) {
         dogs[i].getDetails();
         cout << endl;
     }
 
-    // Display details of all Cats
-    cout << "Cat Details:" << endl;
+    // Display Cat details
+    cout << "Cat Details:\n";
     for (int i = 0; i < numCats; i++) {
         cats[i].getDetails();
         cout << endl;
     }
 
-    // Display the total number of Dogs, Cats, and Pets using static member functions
+    // Total counts
     cout << "Total Pets: " << Pet::getTotalPets() << endl;
     cout << "Total Dogs: " << Dog::getTotalDogs() << endl;
     cout << "Total Cats: " << Cat::getTotalCats() << endl;
+
+    // Free dynamically allocated memory
+    delete[] dogs;
+    delete[] cats;
 
     return 0;
 }
