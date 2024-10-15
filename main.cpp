@@ -5,11 +5,12 @@ using namespace std;
 
 // Pet Base Class
 class Pet {
-public:
+private:
     string name;
     int age;
     double price;
 
+public:
     // Static variable to count total number of pets (across all types)
     static int totalPets;
 
@@ -19,28 +20,61 @@ public:
     }
 
     Pet() {
-        // Increment the totalPets count whenever a Pet (or derived class) is created
         totalPets++;
     }
 
     virtual ~Pet() {
-        // Decrement totalPets when a pet is deleted
         totalPets--;
     }
 
-    void getDetails() {
-        cout << "Pet Name: " << this->name << endl;
-        cout << "Age: " << this->age << " years" << endl;
-        cout << "Price: $" << this->price << endl;
+    // Accessor methods
+    string getName() const {
+        return name;
+    }
+
+    int getAge() const {
+        return age;
+    }
+
+    double getPrice() const {
+        return price;
+    }
+
+    // Mutator methods
+    void setName(const string& newName) {
+        name = newName;
+    }
+
+    void setAge(int newAge) {
+        age = newAge;
+    }
+
+    void setPrice(double newPrice) {
+        price = newPrice;
+    }
+
+    void getDetails() const {
+        cout << "Pet Name: " << getName() << endl;
+        cout << "Age: " << getAge() << " years" << endl;
+        cout << "Price: $" << getPrice() << endl;
     }
 
     void inputDetails() {
+        string inputName;
+        int inputAge;
+        double inputPrice;
+
         cout << "Enter Pet Name: ";
-        cin >> name;
+        cin >> inputName;
+        setName(inputName);
+
         cout << "Enter Age: ";
-        cin >> age;
+        cin >> inputAge;
+        setAge(inputAge);
+
         cout << "Enter Price: ";
-        cin >> price;
+        cin >> inputPrice;
+        setPrice(inputPrice);
     }
 };
 
@@ -49,10 +83,11 @@ int Pet::totalPets = 0;
 
 // Dog Class (Inherits from Pet)
 class Dog : public Pet {
-public:
+private:
     string breed;
     bool isTrained;
 
+public:
     // Static variable to count number of Dog objects created
     static int totalDogs;
 
@@ -62,25 +97,50 @@ public:
     }
 
     Dog() {
-        totalDogs++;  // Increment totalDogs count when a Dog is created
+        totalDogs++;
     }
 
     ~Dog() {
-        totalDogs--;  // Decrement totalDogs count when a Dog is deleted
+        totalDogs--;
     }
 
-    void getDetails() {
+    // Accessor methods
+    string getBreed() const {
+        return breed;
+    }
+
+    bool getIsTrained() const {
+        return isTrained;
+    }
+
+    // Mutator methods
+    void setBreed(const string& newBreed) {
+        breed = newBreed;
+    }
+
+    void setIsTrained(bool trained) {
+        isTrained = trained;
+    }
+
+    void getDetails() const {
         Pet::getDetails();
-        cout << "Breed: " << this->breed << endl;
-        cout << "Trained: " << (this->isTrained ? "Yes" : "No") << endl;
+        cout << "Breed: " << getBreed() << endl;
+        cout << "Trained: " << (getIsTrained() ? "Yes" : "No") << endl;
     }
 
     void inputDetails() {
         Pet::inputDetails();  // Get the base pet details
+
+        string inputBreed;
+        bool inputIsTrained;
+
         cout << "Enter Breed: ";
-        cin >> breed;
+        cin >> inputBreed;
+        setBreed(inputBreed);
+
         cout << "Is the dog trained? (1 for Yes, 0 for No): ";
-        cin >> isTrained;
+        cin >> inputIsTrained;
+        setIsTrained(inputIsTrained);
     }
 };
 
@@ -89,10 +149,11 @@ int Dog::totalDogs = 0;
 
 // Cat Class (Inherits from Pet)
 class Cat : public Pet {
-public:
+private:
     string furColor;
     bool isIndependent;
 
+public:
     // Static variable to count number of Cat objects created
     static int totalCats;
 
@@ -102,25 +163,50 @@ public:
     }
 
     Cat() {
-        totalCats++;  // Increment totalCats count when a Cat is created
+        totalCats++;
     }
 
     ~Cat() {
-        totalCats--;  // Decrement totalCats count when a Cat is deleted
+        totalCats--;
     }
 
-    void getDetails() {
+    // Accessor methods
+    string getFurColor() const {
+        return furColor;
+    }
+
+    bool getIsIndependent() const {
+        return isIndependent;
+    }
+
+    // Mutator methods
+    void setFurColor(const string& newColor) {
+        furColor = newColor;
+    }
+
+    void setIsIndependent(bool independent) {
+        isIndependent = independent;
+    }
+
+    void getDetails() const {
         Pet::getDetails();
-        cout << "Fur Color: " << this->furColor << endl;
-        cout << "Independent: " << (this->isIndependent ? "Yes" : "No") << endl;
+        cout << "Fur Color: " << getFurColor() << endl;
+        cout << "Independent: " << (getIsIndependent() ? "Yes" : "No") << endl;
     }
 
     void inputDetails() {
         Pet::inputDetails();  // Get the base pet details
+
+        string inputFurColor;
+        bool inputIsIndependent;
+
         cout << "Enter Fur Color: ";
-        cin >> furColor;
+        cin >> inputFurColor;
+        setFurColor(inputFurColor);
+
         cout << "Is the cat independent? (1 for Yes, 0 for No): ";
-        cin >> isIndependent;
+        cin >> inputIsIndependent;
+        setIsIndependent(inputIsIndependent);
     }
 };
 
@@ -173,16 +259,6 @@ int main() {
     }
 
     // Display the total number of Dogs, Cats, and Pets using static member functions
-    cout << "Total Pets: " << Pet::getTotalPets() << endl;
-    cout << "Total Dogs: " << Dog::getTotalDogs() << endl;
-    cout << "Total Cats: " << Cat::getTotalCats() << endl;
-
-    // Free the dynamically allocated memory
-    delete[] dogs;  // deallocate the memory for the array of Dog objects
-    delete[] cats;  // deallocate the memory for the array of Cat objects
-
-    // Display the total after deletion using static member functions
-    cout << "After deletion:" << endl;
     cout << "Total Pets: " << Pet::getTotalPets() << endl;
     cout << "Total Dogs: " << Dog::getTotalDogs() << endl;
     cout << "Total Cats: " << Cat::getTotalCats() << endl;
