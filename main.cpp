@@ -11,10 +11,8 @@ private:
     double price;
 
 public:
-    // Static variable to count total number of pets (across all types)
     static int totalPets;
 
-    // Static member function to get total number of pets
     static int getTotalPets() {
         return totalPets;
     }
@@ -53,12 +51,7 @@ public:
         price = newPrice;
     }
 
-    void getDetails() const {
-        cout << "Pet Name: " << getName() << endl;
-        cout << "Age: " << getAge() << " years" << endl;
-        cout << "Price: $" << getPrice() << endl;
-    }
-
+    // Public method to input pet details
     void inputDetails() {
         string inputName;
         int inputAge;
@@ -76,6 +69,12 @@ public:
         cin >> inputPrice;
         setPrice(inputPrice);
     }
+
+    void getDetails() const {
+        cout << "Pet Name: " << getName() << endl;
+        cout << "Age: " << getAge() << " years" << endl;
+        cout << "Price: $" << getPrice() << endl;
+    }
 };
 
 // Initialize static variable
@@ -88,10 +87,8 @@ private:
     bool isTrained;
 
 public:
-    // Static variable to count number of Dog objects created
     static int totalDogs;
 
-    // Static member function to get total number of dogs
     static int getTotalDogs() {
         return totalDogs;
     }
@@ -104,7 +101,7 @@ public:
         totalDogs--;
     }
 
-    // Accessor methods
+    // Accessor methods for Dog's private attributes
     string getBreed() const {
         return breed;
     }
@@ -113,7 +110,7 @@ public:
         return isTrained;
     }
 
-    // Mutator methods
+    // Mutator methods for Dog's private attributes
     void setBreed(const string& newBreed) {
         breed = newBreed;
     }
@@ -122,14 +119,8 @@ public:
         isTrained = trained;
     }
 
-    void getDetails() const {
-        Pet::getDetails();
-        cout << "Breed: " << getBreed() << endl;
-        cout << "Trained: " << (getIsTrained() ? "Yes" : "No") << endl;
-    }
-
     void inputDetails() {
-        Pet::inputDetails();  // Get the base pet details
+        Pet::inputDetails(); // Get base pet details
 
         string inputBreed;
         bool inputIsTrained;
@@ -141,6 +132,12 @@ public:
         cout << "Is the dog trained? (1 for Yes, 0 for No): ";
         cin >> inputIsTrained;
         setIsTrained(inputIsTrained);
+    }
+
+    void getDetails() const {
+        Pet::getDetails();
+        cout << "Breed: " << getBreed() << endl;
+        cout << "Trained: " << (getIsTrained() ? "Yes" : "No") << endl;
     }
 };
 
@@ -154,10 +151,8 @@ private:
     bool isIndependent;
 
 public:
-    // Static variable to count number of Cat objects created
     static int totalCats;
 
-    // Static member function to get total number of cats
     static int getTotalCats() {
         return totalCats;
     }
@@ -170,7 +165,7 @@ public:
         totalCats--;
     }
 
-    // Accessor methods
+    // Accessor methods for Cat's private attributes
     string getFurColor() const {
         return furColor;
     }
@@ -179,7 +174,7 @@ public:
         return isIndependent;
     }
 
-    // Mutator methods
+    // Mutator methods for Cat's private attributes
     void setFurColor(const string& newColor) {
         furColor = newColor;
     }
@@ -188,14 +183,8 @@ public:
         isIndependent = independent;
     }
 
-    void getDetails() const {
-        Pet::getDetails();
-        cout << "Fur Color: " << getFurColor() << endl;
-        cout << "Independent: " << (getIsIndependent() ? "Yes" : "No") << endl;
-    }
-
     void inputDetails() {
-        Pet::inputDetails();  // Get the base pet details
+        Pet::inputDetails(); // Get base pet details
 
         string inputFurColor;
         bool inputIsIndependent;
@@ -207,6 +196,12 @@ public:
         cout << "Is the cat independent? (1 for Yes, 0 for No): ";
         cin >> inputIsIndependent;
         setIsIndependent(inputIsIndependent);
+    }
+
+    void getDetails() const {
+        Pet::getDetails();
+        cout << "Fur Color: " << getFurColor() << endl;
+        cout << "Independent: " << (getIsIndependent() ? "Yes" : "No") << endl;
     }
 };
 
