@@ -68,7 +68,7 @@ public:
 // Initialize static variable
 int Pet::totalPets = 0;
 
-// Dog Class (Inherits from Pet)
+// Dog Class (Hierarchical Inheritance: Inherits from Pet)
 class Dog : public Pet {
 private:
     string breed;
@@ -125,7 +125,7 @@ public:
 // Initialize static variable
 int Dog::totalDogs = 0;
 
-// Cat Class (Inherits from Pet)
+// Cat Class (Hierarchical Inheritance: Inherits from Pet)
 class Cat : public Pet {
 private:
     string furColor;
@@ -182,9 +182,65 @@ public:
 // Initialize static variable
 int Cat::totalCats = 0;
 
+// Bird Class (New Class for Multilevel Inheritance)
+class Bird : public Pet {
+private:
+    double wingSpan;
+
+public:
+    // Default Constructor
+    Bird() : Pet(), wingSpan(0.0) {}
+
+    // Parameterized Constructor
+    Bird(string newName, int newAge, double newPrice, double newWingSpan)
+        : Pet(newName, newAge, newPrice), wingSpan(newWingSpan) {}
+
+    // Accessor and Mutator methods
+    double getWingSpan() const {
+        return wingSpan;
+    }
+
+    void setWingSpan(double newWingSpan) {
+        wingSpan = newWingSpan;
+    }
+
+    void getDetails() const override {
+        Pet::getDetails();
+        cout << "Wing Span: " << getWingSpan() << " meters" << endl;
+    }
+};
+
+// Parrot Class (Multilevel Inheritance: Inherits from Bird)
+class Parrot : public Bird {
+private:
+    bool canTalk;
+
+public:
+    // Default Constructor
+    Parrot() : Bird(), canTalk(false) {}
+
+    // Parameterized Constructor
+    Parrot(string newName, int newAge, double newPrice, double newWingSpan, bool talks)
+        : Bird(newName, newAge, newPrice, newWingSpan), canTalk(talks) {}
+
+    // Accessor and Mutator methods
+    bool getCanTalk() const {
+        return canTalk;
+    }
+
+    void setCanTalk(bool talks) {
+        canTalk = talks;
+    }
+
+    void getDetails() const override {
+        Bird::getDetails();
+        cout << "Can Talk: " << (getCanTalk() ? "Yes" : "No") << endl;
+    }
+};
+
 // Main function
 int main() {
-    int numDogs, numCats;
+    int numDogs, numCats, numParrots;
 
     // Ask for number of pets
     cout << "Enter the number of dogs: ";
@@ -192,6 +248,9 @@ int main() {
 
     cout << "Enter the number of cats: ";
     cin >> numCats;
+
+    cout << "Enter the number of parrots: ";
+    cin >> numParrots;
 
     // Dynamically allocate an array of Dog objects
     Dog* dogs = new Dog[numDogs]; 
@@ -233,28 +292,51 @@ int main() {
         cats[i] = Cat(name, age, price, furColor, independent); // Using parameterized constructor
     }
 
-    // Display Dog details
-    cout << "\nDog Details:\n";
+    // Dynamically allocate an array of Parrot objects
+    Parrot* parrots = new Parrot[numParrots]; 
+    
+    // Input details for Parrot objects using parameterized constructor
+    for (int i = 0; i < numParrots; i++) {
+        string name;
+        int age;
+        double price, wingSpan;
+        bool canTalk;
+
+        cout << "Enter details for Parrot " << i + 1 << ":" << endl;
+        cout << "Name: "; cin >> name;
+        cout << "Age: "; cin >> age;
+        cout << "Price: "; cin >> price;
+        cout << "Wing Span (meters): "; cin >> wingSpan;
+        cout << "Can Talk (1 for Yes, 0 for No): "; cin >> canTalk;
+
+        parrots[i] = Parrot(name, age, price, wingSpan, canTalk); // Using parameterized constructor
+    }
+
+    // Output Dog details
+    cout << "\nDetails of Dogs:" << endl;
     for (int i = 0; i < numDogs; i++) {
         dogs[i].getDetails();
         cout << endl;
     }
 
-    // Display Cat details
-    cout << "Cat Details:\n";
+    // Output Cat details
+    cout << "\nDetails of Cats:" << endl;
     for (int i = 0; i < numCats; i++) {
         cats[i].getDetails();
         cout << endl;
     }
 
-    // Total counts
-    cout << "Total Pets: " << Pet::getTotalPets() << endl;
-    cout << "Total Dogs: " << Dog::getTotalDogs() << endl;
-    cout << "Total Cats: " << Cat::getTotalCats() << endl;
+    // Output Parrot details
+    cout << "\nDetails of Parrots:" << endl;
+    for (int i = 0; i < numParrots; i++) {
+        parrots[i].getDetails();
+        cout << endl;
+    }
 
     // Free dynamically allocated memory
     delete[] dogs;
     delete[] cats;
+    delete[] parrots;
 
     return 0;
 }
