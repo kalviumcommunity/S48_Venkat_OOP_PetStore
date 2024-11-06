@@ -3,7 +3,7 @@
 
 using namespace std;
 
-// Pet Base Class
+// Abstract Pet Base Class
 class Pet {
 private:
     string name;
@@ -58,11 +58,15 @@ public:
         price = newPrice;
     }
 
+    // Virtual function for displaying details
     virtual void getDetails() const {
         cout << "Pet Name: " << getName() << endl;
         cout << "Age: " << getAge() << " years" << endl;
         cout << "Price: $" << getPrice() << endl;
     }
+
+    // Pure virtual function to make this an abstract class
+    virtual void makeSound() const = 0;  // Abstract function
 };
 
 // Initialize static variable
@@ -119,6 +123,11 @@ public:
         Pet::getDetails();
         cout << "Breed: " << getBreed() << endl;
         cout << "Trained: " << (getIsTrained() ? "Yes" : "No") << endl;
+    }
+
+    // Override the makeSound function for Dog
+    void makeSound() const override {
+        cout << "Dog says: Woof Woof!" << endl;
     }
 };
 
@@ -177,41 +186,18 @@ public:
         cout << "Fur Color: " << getFurColor() << endl;
         cout << "Independent: " << (getIsIndependent() ? "Yes" : "No") << endl;
     }
+
+    // Override the makeSound function for Cat
+    void makeSound() const override {
+        cout << "Cat says: Meow Meow!" << endl;
+    }
 };
 
 // Initialize static variable
 int Cat::totalCats = 0;
 
-// Bird Class (New Class for Multilevel Inheritance)
-class Bird : public Pet {
-private:
-    double wingSpan;
-
-public:
-    // Default Constructor
-    Bird() : Pet(), wingSpan(0.0) {}
-
-    // Parameterized Constructor
-    Bird(string newName, int newAge, double newPrice, double newWingSpan)
-        : Pet(newName, newAge, newPrice), wingSpan(newWingSpan) {}
-
-    // Accessor and Mutator methods
-    double getWingSpan() const {
-        return wingSpan;
-    }
-
-    void setWingSpan(double newWingSpan) {
-        wingSpan = newWingSpan;
-    }
-
-    void getDetails() const override {
-        Pet::getDetails();
-        cout << "Wing Span: " << getWingSpan() << " meters" << endl;
-    }
-};
-
-// Parrot Class (Multilevel Inheritance: Inherits from Bird)
-class Parrot : public Bird {
+// Parrot Class (Multilevel Inheritance: Inherits from Pet through Bird)
+class Parrot : public Pet {
 private:
     bool canTalk;
 
@@ -224,13 +210,13 @@ public:
     }
 
     // Default Constructor
-    Parrot() : Bird(), canTalk(false) {
+    Parrot() : Pet(), canTalk(false) {
         totalParrots++;
     }
 
     // Parameterized Constructor
-    Parrot(string newName, int newAge, double newPrice, double newWingSpan, bool talks)
-        : Bird(newName, newAge, newPrice, newWingSpan), canTalk(talks) {
+    Parrot(string newName, int newAge, double newPrice, bool talks)
+        : Pet(newName, newAge, newPrice), canTalk(talks) {
         totalParrots++;
     }
 
@@ -249,8 +235,13 @@ public:
     }
 
     void getDetails() const override {
-        Bird::getDetails();
+        Pet::getDetails();
         cout << "Can Talk: " << (getCanTalk() ? "Yes" : "No") << endl;
+    }
+
+    // Override the makeSound function for Parrot
+    void makeSound() const override {
+        cout << "Parrot says: Squawk! Hello!" << endl;
     }
 };
 
@@ -259,88 +250,25 @@ int Parrot::totalParrots = 0;
 
 // Main function
 int main() {
-    int numDogs, numCats, numParrots;
+    Dog dog1("Buddy", 3, 300.0, "Golden Retriever", true);
+    Cat cat1("Whiskers", 2, 150.0, "Brown", true);
+    Parrot parrot1("Polly", 4, 120.0, true);
 
-    // Ask for number of pets
-    cout << "Enter the number of dogs: ";
-    cin >> numDogs;
-
-    cout << "Enter the number of cats: ";
-    cin >> numCats;
-
-    cout << "Enter the number of parrots: ";
-    cin >> numParrots;
-
-    // Dynamically allocate an array of Dog objects
-    Dog* dogs = new Dog[numDogs]; 
+    // Display details and sounds for each pet
+    dog1.getDetails();
+    dog1.makeSound();
     
-    // Input details for Dog objects using parameterized constructor
-    for (int i = 0; i < numDogs; i++) {
-        string name, breed;
-        int age;
-        double price;
-        bool trained;
-
-        cout << "Enter details for Dog " << i + 1 << ":" << endl;
-        cout << "Name: "; cin >> name;
-        cout << "Age: "; cin >> age;
-        cout << "Price: "; cin >> price;
-        cout << "Breed: "; cin >> breed;
-        cout << "Trained (1 for Yes, 0 for No): "; cin >> trained;
-
-        dogs[i] = Dog(name, age, price, breed, trained); // Using parameterized constructor
-    }
-
-    // Dynamically allocate an array of Cat objects
-    Cat* cats = new Cat[numCats]; 
+    cat1.getDetails();
+    cat1.makeSound();
     
-    // Input details for Cat objects using parameterized constructor
-    for (int i = 0; i < numCats; i++) {
-        string name, furColor;
-        int age;
-        double price;
-        bool independent;
-
-        cout << "Enter details for Cat " << i + 1 << ":" << endl;
-        cout << "Name: "; cin >> name;
-        cout << "Age: "; cin >> age;
-        cout << "Price: "; cin >> price;
-        cout << "Fur Color: "; cin >> furColor;
-        cout << "Independent (1 for Yes, 0 for No): "; cin >> independent;
-
-        cats[i] = Cat(name, age, price, furColor, independent); // Using parameterized constructor
-    }
-
-    // Dynamically allocate an array of Parrot objects
-    Parrot* parrots = new Parrot[numParrots]; 
-    
-    // Input details for Parrot objects using parameterized constructor
-    for (int i = 0; i < numParrots; i++) {
-        string name;
-        int age;
-        double price, wingSpan;
-        bool canTalk;
-
-        cout << "Enter details for Parrot " << i + 1 << ":" << endl;
-        cout << "Name: "; cin >> name;
-        cout << "Age: "; cin >> age;
-        cout << "Price: "; cin >> price;
-        cout << "Wing Span (meters): "; cin >> wingSpan;
-        cout << "Can Talk (1 for Yes, 0 for No): "; cin >> canTalk;
-
-        parrots[i] = Parrot(name, age, price, wingSpan, canTalk); // Using parameterized constructor
-    }
+    parrot1.getDetails();
+    parrot1.makeSound();
 
     // Displaying total counts
     cout << "\nTotal Pets: " << Pet::getTotalPets() << endl;
     cout << "Total Dogs: " << Dog::getTotalDogs() << endl;
     cout << "Total Cats: " << Cat::getTotalCats() << endl;
     cout << "Total Parrots: " << Parrot::getTotalParrots() << endl;
-
-    // Clean up memory
-    delete[] dogs;
-    delete[] cats;
-    delete[] parrots;
 
     return 0;
 }
