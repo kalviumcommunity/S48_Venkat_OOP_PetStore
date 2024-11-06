@@ -216,12 +216,28 @@ private:
     bool canTalk;
 
 public:
+    static int totalParrots;
+
+    // Static member function
+    static int getTotalParrots() {
+        return totalParrots;
+    }
+
     // Default Constructor
-    Parrot() : Bird(), canTalk(false) {}
+    Parrot() : Bird(), canTalk(false) {
+        totalParrots++;
+    }
 
     // Parameterized Constructor
     Parrot(string newName, int newAge, double newPrice, double newWingSpan, bool talks)
-        : Bird(newName, newAge, newPrice, newWingSpan), canTalk(talks) {}
+        : Bird(newName, newAge, newPrice, newWingSpan), canTalk(talks) {
+        totalParrots++;
+    }
+
+    // Destructor
+    ~Parrot() {
+        totalParrots--;
+    }
 
     // Accessor and Mutator methods
     bool getCanTalk() const {
@@ -237,6 +253,9 @@ public:
         cout << "Can Talk: " << (getCanTalk() ? "Yes" : "No") << endl;
     }
 };
+
+// Initialize static variable
+int Parrot::totalParrots = 0;
 
 // Main function
 int main() {
@@ -312,28 +331,13 @@ int main() {
         parrots[i] = Parrot(name, age, price, wingSpan, canTalk); // Using parameterized constructor
     }
 
-    // Output Dog details
-    cout << "\nDetails of Dogs:" << endl;
-    for (int i = 0; i < numDogs; i++) {
-        dogs[i].getDetails();
-        cout << endl;
-    }
+    // Displaying total counts
+    cout << "\nTotal Pets: " << Pet::getTotalPets() << endl;
+    cout << "Total Dogs: " << Dog::getTotalDogs() << endl;
+    cout << "Total Cats: " << Cat::getTotalCats() << endl;
+    cout << "Total Parrots: " << Parrot::getTotalParrots() << endl;
 
-    // Output Cat details
-    cout << "\nDetails of Cats:" << endl;
-    for (int i = 0; i < numCats; i++) {
-        cats[i].getDetails();
-        cout << endl;
-    }
-
-    // Output Parrot details
-    cout << "\nDetails of Parrots:" << endl;
-    for (int i = 0; i < numParrots; i++) {
-        parrots[i].getDetails();
-        cout << endl;
-    }
-
-    // Free dynamically allocated memory
+    // Clean up memory
     delete[] dogs;
     delete[] cats;
     delete[] parrots;
